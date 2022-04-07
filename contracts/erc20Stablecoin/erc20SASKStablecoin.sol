@@ -11,7 +11,7 @@ contract erc20QiStablecoin is erc20Stablecoin, Ownable {
         uint256 minimumCollateralPercentage,
         string memory name,
         string memory symbol,
-        address _mai,
+        address _sask,
         address _collateral,
         address meta,
         string memory baseURI
@@ -20,7 +20,7 @@ contract erc20QiStablecoin is erc20Stablecoin, Ownable {
         minimumCollateralPercentage,
         name,
         symbol,
-        _mai,
+        _sask,
         _collateral,
         meta,
         baseURI
@@ -71,8 +71,8 @@ contract erc20QiStablecoin is erc20Stablecoin, Ownable {
     }
 
     function transferToken(uint256 amountToken) public onlyOwner() {
-        // Transfer reserve tokens back to main MAI contract
-        mai.transfer(address(mai), amountToken);
+        // Transfer reserve tokens back to main sask contract
+        sask.transfer(address(sask), amountToken);
     }
 
     function setBaseURI(string memory baseURI) public onlyOwner() {
