@@ -35,7 +35,7 @@ contract erc20Stablecoin is ReentrancyGuard, VaultNFTv3 {
 
     ERC20Detailed public collateral;
 
-    ERC20Detailed public mai;
+    ERC20Detailed public sask;
 
     uint8 public priceSourceDecimals;
 
@@ -55,7 +55,7 @@ contract erc20Stablecoin is ReentrancyGuard, VaultNFTv3 {
         uint256 minimumCollateralPercentage,
         string memory name,
         string memory symbol,
-        address _mai,
+        address _sask,
         address _collateral,
         address meta,
         string memory baseURI
@@ -75,7 +75,7 @@ contract erc20Stablecoin is ReentrancyGuard, VaultNFTv3 {
         _minimumCollateralPercentage = minimumCollateralPercentage;
 
         collateral = ERC20Detailed(_collateral);
-        mai = ERC20Detailed(_mai);
+        sask = ERC20Detailed(_sask);
         priceSourceDecimals = ethPriceSource.decimals();
     }
 
@@ -86,7 +86,7 @@ contract erc20Stablecoin is ReentrancyGuard, VaultNFTv3 {
     }
 
     function getDebtCeiling() public view returns (uint256){
-        return mai.balanceOf(address(this));
+        return sask.balanceOf(address(this));
     }
 
     function exists(uint256 vaultID) external view returns (bool){
@@ -115,7 +115,7 @@ contract erc20Stablecoin is ReentrancyGuard, VaultNFTv3 {
         assert(getEthPriceSource() != 0);
         assert(getTokenPriceSource() != 0);
 
-        uint256 collateralValue = _collateral.mul(getEthPriceSource()).mul(10**(uint256(mai.decimals()).sub(uint256(collateral.decimals()))));
+        uint256 collateralValue = _collateral.mul(getEthPriceSource()).mul(10**(uint256(sask.decimals()).sub(uint256(collateral.decimals()))));
 
         assert(collateralValue >= _collateral);
 
@@ -207,20 +207,20 @@ contract erc20Stablecoin is ReentrancyGuard, VaultNFTv3 {
 
         vaultDebt[vaultID] = newDebt;
 
-        // mai
-        mai.safeTransfer(msg.sender, amount);
+        // sask
+        sask.safeTransfer(msg.sender, amount);
 
         emit BorrowToken(vaultID, amount);
     }
 
     function payBackToken(uint256 vaultID, uint256 amount) external {
-        require(mai.balanceOf(msg.sender) >= amount, "Token balance too low");
+        require(sask.balanceOf(msg.sender) >= amount, "Token balance too low");
         require(vaultDebt[vaultID] >= amount, "Vault debt less than amount to pay back");
 
         uint256 _closingFee = (amount.mul(closingFee).mul(getTokenPriceSource())).div(getEthPriceSource().mul(10000));
 
-        //mai
-        mai.safeTransferFrom(msg.sender, address(this), amount);
+        //sask
+        sask.safeTransferFrom(msg.sender, address(this), amount);
 
         vaultDebt[vaultID] = vaultDebt[vaultID].sub(amount);
         vaultCollateral[vaultID]=vaultCollateral[vaultID].sub(_closingFee);
@@ -316,10 +316,10 @@ contract erc20Stablecoin is ReentrancyGuard, VaultNFTv3 {
 
         uint256 halfDebt = debtValue.div(debtRatio); //debtRatio (2)
 
-        require(mai.balanceOf(msg.sender) >= halfDebt, "Token balance too low to pay off outstanding debt");
+        require(sask.balanceOf(msg.sender) >= halfDebt, "Token balance too low to pay off outstanding debt");
 
-        //mai
-        mai.safeTransferFrom(msg.sender, address(this), halfDebt);
+        //sask
+        sask.safeTransferFrom(msg.sender, address(this), halfDebt);
 
         uint256 maticExtract = checkExtract(vaultID);
 
