@@ -1,5 +1,5 @@
 
-// contracts/miStableUSDT.sol
+// contracts/ehStablejcad.sol
 // SPDX-License-Identifier: MIT
 pragma solidity 0.5.5;
 
@@ -69,7 +69,7 @@ contract ehStablejcad is ReentrancyGuard {
             // 1000000000000000000 we get 980000 (bc decimals)
         uint256 amountToSend = amount.mul(saskRate).div(100000000000000);
 
-        require(jcad.balanceOf(address(this)) >= amountToSend, "swapTo: Not enough SaskCoin in reserves");
+        require(jcad.balanceOf(address(this)) >= amountToSend, "swapTo: Not enough jcad in reserves");
 
         // Tranfer tokens from sender to this contract
         sask.transferFrom(msg.sender, address(this), amount);
