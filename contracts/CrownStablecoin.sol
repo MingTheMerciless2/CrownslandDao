@@ -3,7 +3,7 @@ pragma solidity 0.5.5;
 import "@openzeppelin/contracts/ownership/Ownable.sol";
 import "./Stablecoin.sol";
 
-contract QiStablecoin is Stablecoin, Ownable {
+contract CrownStablecoin is Stablecoin, Ownable {
     constructor(
         address ethPriceSourceAddress,
         uint256 minimumCollateralPercentage,
