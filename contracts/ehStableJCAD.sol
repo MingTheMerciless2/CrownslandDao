@@ -20,7 +20,7 @@ contract ehStablejcad is ReentrancyGuard {
     
     constructor(address _jcad, address _sask) public {
         admin = msg.sender;
-        cjad = ERC20(_cjad);
+        jcad = ERC20(_jcad);
         sask = ERC20(_sask);
         saskRate = 99;
         jcadRate = 101;
