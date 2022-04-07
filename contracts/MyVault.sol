@@ -9,7 +9,7 @@ contract VaultNFT is ERC721Full {
         
     address admin;
     
-    constructor() public ERC721Full("miMATIC Vault", "MMTV") {
+    constructor() public ERC721Full("Crown Vault", "CrownV") {
         admin = msg.sender;
     }
     
