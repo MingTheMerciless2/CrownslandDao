@@ -4,7 +4,7 @@ pragma solidity 0.5.16;
 import "@openzeppelin/contracts/ownership/Ownable.sol";
 import "./erc20Stablecoin.sol";
 
-contract erc20QiStablecoin is erc20Stablecoin, Ownable {
+contract erc20CrownStablecoin is erc20Stablecoin, Ownable {
 
     constructor(
         address ethPriceSourceAddress,
